@@ -1,5 +1,6 @@
 package proskystream;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -16,22 +17,25 @@ public abstract class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee add(String firstName, String lastName) {
-        if (employees.size() > MAX_SIZE) {
-            throw new EmployeeStoragelsFullException();
-        }
+       checkArg(firstName, lastName);
+
+            if (employees.size() > MAX_SIZE) {
+                throw new EmployeeStoragelsFullException();
+            }
         var key = (firstName + "_" + lastName).toLowerCase();
         if (employees.containsKey(key)) {
 
             throw new EmployeeAlreadyAddedException();
         }
 
-        var employee = new Employee(firstName, lastName, department, salary);
+        var employee = create(firstName, lastName);
         employees.put(key, employee);
         return employee;
     }
 
     @Override
     public Employee remove(String firstName, String lastName) {
+        checkArg(firstName, lastName);
         var key = (firstName + "_" + lastName).toLowerCase();
         var removed = employees.remove(key);
         if (removed == null) {
@@ -43,6 +47,7 @@ public abstract class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee find(String firstName, String lastName) {
+        checkArg(firstName, lastName);
         var key = (firstName + "_" + lastName).toLowerCase();
         var employee = employees.get(key);
         if (employee == null) {
@@ -55,6 +60,21 @@ public abstract class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Collection<Employee> getAll() {
         return employees.values();
+    }
+
+    private void checkArg(String... args) {
+        for (String arg : args) {
+            if (!StringUtils.isAlpha(arg)) {
+                throw new NotValidCaracterException();
+            }
+        }
+    }
+
+    private Employee create(String firstName, String lastName) {
+        return new Employee(
+                StringUtils.capitalize(firstName),
+                StringUtils.capitalize(lastName),
+                1, 555444);
     }
 
 
