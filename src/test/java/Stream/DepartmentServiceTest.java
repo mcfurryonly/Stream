@@ -9,6 +9,7 @@ import proskystream.EmployeeServiceImpl;
 
 import java.util.List;
 
+import static java.util.stream.Collectors.groupingBy;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
@@ -65,4 +66,15 @@ class DepartmentServiceTest {
 
 
     }
+
+    @Test
+    void all() {
+
+        var actual = employeeServiceimpl.getAll().stream()
+                .collect(groupingBy(Employee::getDepartment));
+        var expected = new Employee("fee", "rar", 1, 1000);
+        assertEquals(expected, actual);
+
+    }
+
 }

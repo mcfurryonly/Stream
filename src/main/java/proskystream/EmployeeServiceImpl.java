@@ -8,11 +8,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public abstract class EmployeeServiceImpl implements EmployeeService {
+public class EmployeeServiceImpl implements EmployeeService {
     private static final int MAX_SIZE = 100;
     private final Map<String, Employee> employees = new HashMap<>(MAX_SIZE);
     private int salary;
     private int department;
+
 
 
     @Override
