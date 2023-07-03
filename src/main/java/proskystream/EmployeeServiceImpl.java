@@ -75,7 +75,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         return new Employee(
                 StringUtils.capitalize(firstName),
                 StringUtils.capitalize(lastName),
-                1, 555444);
+                0, 0);
     }
 
 

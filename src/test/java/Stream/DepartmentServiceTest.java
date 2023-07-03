@@ -7,7 +7,9 @@ import org.mockito.MockitoAnnotations;
 import proskystream.Employee;
 import proskystream.EmployeeServiceImpl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static java.util.stream.Collectors.groupingBy;
 import static org.junit.jupiter.api.Assertions.*;
@@ -70,9 +72,24 @@ class DepartmentServiceTest {
     @Test
     void all() {
 
-        var actual = employeeServiceimpl.getAll().stream()
+
+
+        var actual = employeeServiceimpl.getAll()
+                .stream()
                 .collect(groupingBy(Employee::getDepartment));
-        var expected = new Employee("fee", "rar", 1, 1000);
+
+
+        var DATA = new HashMap<Integer, List<Employee>>();
+        DATA.put(1, List.of(
+                new Employee("fee", "rar", 1, 1000),
+                new Employee("fee3", "rar3", 1, 1001)));
+        DATA.put(3, List.of(
+                new Employee("fee1", "rar1", 3, 1000)
+        ));
+        DATA.put(4, List.of(
+                new Employee("fee2", "rar2", 4, 1000)
+        ));
+        var expected = DATA;
         assertEquals(expected, actual);
 
     }
